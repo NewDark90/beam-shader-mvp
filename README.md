@@ -1,2 +1,2 @@
 # beam-shader-mvp
-Creating a minimum viable Beam Shader with Rust
+A minimum viable dapp built for on Beam

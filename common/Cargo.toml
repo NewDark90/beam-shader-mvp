@@ -1,0 +1,15 @@
+[package]
+name = "common"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0"
+license-file = "../LICENSE"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+crate-type = ["lib"]
+
+[dependencies]
+#Make sure that the libraries are updated in all three sections
+beam_bvm_interface = "7.1.13106"
+beam_bvm_util = "7.1.2"
