@@ -1,42 +1,18 @@
-/*
-BEAM_EXPORT void Method_3(const Faucet::Withdraw& r)
-{
-    Height h = Env::get_Height();
-
-    Faucet::Params pars;
-    Env::LoadVar_T((uint8_t) 0, pars);
-
-    Faucet::AccountData ad;
-    bool bLoaded = Env::LoadVar_T(r.m_Key, ad);
-    bool bEmpty = !bLoaded || (h - ad.m_h0 >= pars.m_BacklogPeriod);
-
-    if (r.m_Amount)
-    {
-        if (bEmpty)
-        {
-            ad.m_h0 = h;
-            ad.m_Amount = r.m_Amount;
-        }
-        else
-            Strict::Add(ad.m_Amount, r.m_Amount);
-
-        Env::Halt_if(ad.m_Amount > pars.m_MaxWithdraw);
-        Env::SaveVar_T(r.m_Key, ad);
-
-        Env::FundsUnlock(r.m_Key.m_Aid, r.m_Amount); // would fail if not enough funds in the contract
-    }
-    else
-    {
-        if (bLoaded && bEmpty)
-            Env::DelVar_T(r.m_Key);
-    }
-
-    Env::AddSig(r.m_Key.m_Account);
-}*/
-
 use beam_bvm_interface::root::KeyTag_Internal;
-use beam_bvm_util::safe::{common::get::get_height, contract::var::load_var};
-use common::{params::{CtorParams, WithdrawParams}, types::{AccountData, Key}};
+use beam_bvm_util::safe::{
+    common::{
+        get::get_height,
+        util::{halt, halt_if},
+    },
+    contract::{
+        assets::{add_sig, funds_unlock},
+        var::{del_var, load_var, save_var},
+    },
+};
+use common::{
+    params::{CtorParams, WithdrawParams},
+    types::{AccountData, Key},
+};
 use core::mem::size_of;
 
 #[export_name = "Method_3"]
@@ -53,40 +29,40 @@ pub fn withdraw(params: &WithdrawParams) {
     );
 
     let mut account_data: AccountData = Default::default();
-    
+
     let loaded: bool = load_var::<Key, AccountData>(
         &params.key,
         size_of::<Key>() as u32,
         &mut account_data,
         size_of::<AccountData>() as u32,
-        KeyTag_Internal
+        KeyTag_Internal,
     ) > 0;
     let empty: bool = !loaded || (height - account_data.height >= ctor_params.backlog_period);
 
-    if (params.amount > 0)
-    {
-        if (empty)
-        {
+    if params.amount > 0 {
+        if empty {
             account_data.height = height;
             account_data.amount = params.amount;
+        } else {
+            match account_data.amount.checked_add(params.amount) {
+                Some(val) => account_data.amount = val,
+                None => halt(),
+            }
         }
-        else
-        {
-            //Strict::Add(ad.m_Amount, r.m_Amount);
-        }
-            Strict::Add(ad.m_Amount, r.m_Amount);
 
-        Env::Halt_if(ad.m_Amount > pars.m_MaxWithdraw);
-        Env::SaveVar_T(r.m_Key, ad);
+        halt_if(account_data.amount > ctor_params.max_withdraw);
+        save_var::<Key, AccountData>(
+            &params.key,
+            size_of::<Key>() as u32,
+            &account_data,
+            size_of::<AccountData>() as u32,
+            KeyTag_Internal,
+        );
 
-        Env::FundsUnlock(r.m_Key.m_Aid, r.m_Amount); // would fail if not enough funds in the contract
-    }
-    else
-    {
-        if (bLoaded && bEmpty)
-            Env::DelVar_T(r.m_Key);
+        funds_unlock(params.key.asset_id, params.amount);
+    } else if loaded && empty {
+        del_var::<Key>(&params.key, size_of::<Key>() as u32);
     }
 
-    Env::AddSig(r.m_Key.m_Account);
-
+    add_sig(&params.key.account)
 }
