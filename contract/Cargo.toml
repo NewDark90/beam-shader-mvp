@@ -9,9 +9,16 @@ license-file = "../LICENSE"
 
 [lib]
 crate-type = ["cdylib"] #must be cdylib
+doctest = false
 
 [dependencies]
 #Make sure that the libraries are updated in all three sections
-beam_bvm_interface = "7.1.13106"
-beam_bvm_util = "7.1.2"
+beam_bvm_interface = "7.1.13107"
+beam_bvm_util = "7.1.7"
 common = { path = "../common" }
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"

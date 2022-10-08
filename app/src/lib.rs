@@ -1,6 +1,5 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![no_main]
-
 /* 
 All methods exposed to the BVM have an exact naming scheme.
 Method_n, 0-7.
@@ -17,8 +16,11 @@ Or you can tell the compiler not to mangle the name with these attributes
 pub fn Method_0() { }
 */
 
+
+//extern crate alloc;
 extern crate common;
 
+pub mod panic_handler;
 pub mod util;
-pub mod do_thing;
-pub mod do_another;
+pub mod method_0;
+pub mod method_1;

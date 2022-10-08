@@ -17,8 +17,10 @@ Or you can tell the compiler not to mangle the name with these attributes
 pub fn Method_0() { }
 */
 
+//extern crate alloc;
 extern crate common;
 
+pub mod panic_handler;
 pub mod util;
 pub mod ctor;
 pub mod dtor;
