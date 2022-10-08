@@ -25,4 +25,4 @@ pub mod util;
 pub mod ctor;
 pub mod dtor;
 pub mod deposit;
-mod withdraw;
+pub mod withdraw;
