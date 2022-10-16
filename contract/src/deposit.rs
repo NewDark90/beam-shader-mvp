@@ -1,5 +1,6 @@
-use beam_bvm_util::safe::contract::assets::funds_lock;
-use common::params::{DepositParams};
+
+use beam_bvm_util::contract::safe::funds_lock;
+use shared::params::{DepositParams};
 
 #[export_name = "Method_2"]
 pub fn deposit(params: &DepositParams) 

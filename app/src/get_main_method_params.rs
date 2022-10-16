@@ -1,10 +1,9 @@
-use beam_bvm_util::{util::app::document_writer::*};
+use crate::util::doc_writer::*;
 
 #[export_name = "Method_0"]
-pub fn method_0() {
-    let doc_writer = DocumentWriter {};
+pub fn get_main_method_params() {
 
-    doc_writer.object(|root|{
+    DOC_WRITER.object(|root|{
         root.object_prop("roles\0", |roles| {
             roles
                 .object_prop("manager\0", |manager|{

@@ -3,7 +3,7 @@ use crate::types::*;
 
 
 pub trait ContractParams {
-    const METHOD: u32;
+    fn method_id(&self) -> u32;
 }
 
 #[derive(Default)]
@@ -13,7 +13,7 @@ pub struct CtorParams {
 }
 
 impl ContractParams for CtorParams {
-    const METHOD: u32 = 0;
+    fn method_id(&self) -> u32 { 0 }
 }
 
 
@@ -22,7 +22,7 @@ pub struct DtorParams {
 }
 
 impl ContractParams for DtorParams {
-    const METHOD: u32 = 1;
+    fn method_id(&self) -> u32 { 1 }
 }
 
 pub struct DepositParams {
@@ -31,7 +31,7 @@ pub struct DepositParams {
 }
 
 impl ContractParams for DepositParams {
-    const METHOD: u32 = 2;
+    fn method_id(&self) -> u32 { 2 }
 }
 
 pub struct WithdrawParams {
@@ -40,5 +40,5 @@ pub struct WithdrawParams {
 }
 
 impl ContractParams for WithdrawParams {
-    const METHOD: u32 = 3;
+    fn method_id(&self) -> u32 { 3 }
 }

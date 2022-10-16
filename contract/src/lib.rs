@@ -17,8 +17,8 @@ Or you can tell the compiler not to mangle the name with these attributes
 pub fn Method_0() { }
 */
 
-//extern crate alloc;
-extern crate common;
+extern crate alloc;
+extern crate shared;
 
 pub mod panic_handler;
 pub mod util;

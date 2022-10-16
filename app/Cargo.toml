@@ -14,8 +14,10 @@ doctest = false
 [dependencies]
 #Make sure that the libraries are updated in all three sections
 beam_bvm_interface = "7.1.13107"
-beam_bvm_util = "7.1.7"
-common = { path = "../common" }
+#beam_bvm_util = "7.1.10"
+beam_bvm_util = { path = "../../beam-bvm-util" }
+shared = { path = "../shared" }
+const_format = "0.2.28"
 
 [profile.dev]
 panic = "abort"

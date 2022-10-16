@@ -17,10 +17,11 @@ pub fn Method_0() { }
 */
 
 
-//extern crate alloc;
-extern crate common;
+extern crate alloc;
+extern crate shared;
 
 pub mod panic_handler;
 pub mod util;
-pub mod method_0;
-pub mod method_1;
+pub mod main_events;
+pub mod get_main_method_params;
+pub mod main_method;
