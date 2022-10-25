@@ -3,7 +3,7 @@ name = "shared"
 version = "0.1.0"
 edition = "2021"
 license = "GPL-3.0"
-license-file = "../LICENSE"
+#license-file = "../LICENSE"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
@@ -13,5 +13,8 @@ doctest = false
 [dependencies]
 #Make sure that the libraries are updated in all three sections
 beam_bvm_interface = "7.1.13107"
-#beam_bvm_util = "7.1.10"
-beam_bvm_util = { path = "../../beam-bvm-util" }
+beam_bvm_util = "7.1.13"
+#beam_bvm_util = { path = "../../beam-bvm-util" }
+
+[dev-dependencies]
+wasm-opt = "0.110.1"

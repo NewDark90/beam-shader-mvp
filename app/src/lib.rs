@@ -1,4 +1,5 @@
 #![cfg_attr(not(feature = "std"), no_std)]
+//#![feature(default_alloc_error_handler)]
 #![no_main]
 /* 
 All methods exposed to the BVM have an exact naming scheme.
@@ -22,6 +23,4 @@ extern crate shared;
 
 pub mod panic_handler;
 pub mod util;
-pub mod main_events;
-pub mod get_main_method_params;
-pub mod main_method;
+pub mod methods;

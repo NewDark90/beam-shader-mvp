@@ -271,36 +271,41 @@ extern "C" void Method_1()
 }
 */
 
-use beam_bvm_util::app::{simple::doc_get_text};
-use const_format::formatcp;
+use core::ffi::CStr;
+
+use alloc::borrow::ToOwned;
+//use alloc::{borrow::ToOwned, format};
+use beam_bvm_util::{app::{simple::doc_get_text, safe::doc_add_text}, common::{extensions::*, safe::halt}};
 
 use crate::{
-    main_events::*,
+    methods::main_method_events::*,
     util::{ShouldRunParams, doc_writer::*},
 };
 
 #[export_name = "Method_1"]
 pub fn main_method() {
 
-    const ACTION_PROP: &str = "action\0";
-    const ROLE_PROP: &str = "role\0";
+    let should_run_params = ShouldRunParams::new();
 
     DOC_WRITER.object(|root| {
 
-        let action_result = doc_get_text(&ACTION_PROP);
-        let role_result = doc_get_text(&ROLE_PROP);
-
-        if action_result.is_err() || role_result.is_err() {
-            root.string_prop("error\0", formatcp!("{0} and {1} are required.\0", ACTION_PROP, ROLE_PROP));
+        if should_run_params.is_error() {
+            doc_add_text(to_c_str("error\0"), to_c_str("role and action are required.\0"));
+            halt();
+            return;
         }
 
-        let should_run_params: ShouldRunParams = ShouldRunParams::new(
-            role_result.unwrap().value,
-            action_result.unwrap().value
-        );
-
-        if manager_create::should_run(should_run_params) {
-            manager_create::run()
+        if should_run_params.is_role(to_c_str("manager\0")) {
+            if should_run_params.is_role(to_c_str("create\0")) {
+                manager_create::run();
+            }
+            if should_run_params.is_role(to_c_str("destroy\0")) {
+                manager_destroy::run();
+            }
         }
+        else if should_run_params.is_role(to_c_str("my_account\0")) {
+
+        }
+
     });
 }

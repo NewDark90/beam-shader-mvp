@@ -1,10 +1,6 @@
 use beam_bvm_interface::root::*;
 use crate::types::*;
-
-
-pub trait ContractParams {
-    fn method_id(&self) -> u32;
-}
+pub use beam_bvm_util::common::traits::*;
 
 #[derive(Default)]
 pub struct CtorParams {
@@ -13,7 +9,7 @@ pub struct CtorParams {
 }
 
 impl ContractParams for CtorParams {
-    fn method_id(&self) -> u32 { 0 }
+    fn method_id() -> u32 { 0 }
 }
 
 
@@ -22,7 +18,7 @@ pub struct DtorParams {
 }
 
 impl ContractParams for DtorParams {
-    fn method_id(&self) -> u32 { 1 }
+    fn method_id() -> u32 { 1 }
 }
 
 pub struct DepositParams {
@@ -31,7 +27,7 @@ pub struct DepositParams {
 }
 
 impl ContractParams for DepositParams {
-    fn method_id(&self) -> u32 { 2 }
+    fn method_id() -> u32 { 2 }
 }
 
 pub struct WithdrawParams {
@@ -40,5 +36,5 @@ pub struct WithdrawParams {
 }
 
 impl ContractParams for WithdrawParams {
-    fn method_id(&self) -> u32 { 3 }
+    fn method_id() -> u32 { 3 }
 }

@@ -13,3 +13,5 @@ A minimum viable dapp built for on Beam
 5. Compiled wasm files will be in `./target/wasm32-wasi/release` directory
 
 After that you can use `app.wasm` and `contract.wasm` files in the same way you use it in Beam's contracts (see https://github.com/BeamMW/shader-sdk/wiki/Running-Beam-Shaders-using-CLI-Wallet).
+
+`wasm-opt --strip-debug --strip-dwarf --disable-memory64 -Oz -o ./target/wasm32-wasi/release/app.min.wasm  ./target/wasm32-wasi/release/app.wasm`

@@ -12,3 +12,6 @@ pub struct Key {
     pub account: PubKey,
     pub asset_id: AssetID,
 }
+
+
+pub type KeyAccount = Env::Key_T<Key> ;
